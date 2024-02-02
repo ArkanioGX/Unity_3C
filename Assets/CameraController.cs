@@ -8,16 +8,34 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    
-    [SerializeField] private GameObject target;
+    [SerializeField]
+    private GameObject target;
 
-    [SerializeField] private float sensitivity;
+    [SerializeField]
+    private int currentCameraID = 0;
 
-    [SerializeField] private float delay;
+    [Serializable]
+    class CameraData
+    {
+        [Range(10f, 180f)]
+        public float FOV = 90;
 
-    [SerializeField] private Vector3 Offset;
+        public Vector3 offset;
 
-    [SerializeField] private Vector2 ClampXRot;
+        public float sensitivity;
+
+        public float smoothTime;
+
+        public Vector2 clampXRot;
+
+        public bool hideComplementary;
+    }
+
+    Camera cam;
+
+    [SerializeField] private CameraData[] CamDatas = new CameraData[0];
+    private CameraData cData;
+
 
     private Vector3 vel;
 
@@ -27,34 +45,21 @@ public class CameraController : MonoBehaviour
 
     private Vector3 lookRotation = new Vector3();
 
-    public enum CameraType : int { FPS = 0, TPS = 1, Isometric = 2 };
-    public CameraType CType = CameraType.FPS;
 
 
 
     void Start()
     {
         pInput = target.GetComponent<PlayerInput>();
+        cam = GetComponent<Camera>();
+        swapCamID(currentCameraID);
     }
 
     // Update is called once per frame
     void Update()
     {
         checkInput();
-        switch (CType)
-        {
-            case CameraType.FPS:
-                FPSUpdate();
-                break;
-            case CameraType.TPS:
-                TPSUpdate();
-                break;
-            case CameraType.Isometric:
-                IsometricUpdate();
-                break;
-            default:
-                break;
-        }
+        CamUpdate();
     }
 
     private void checkInput()
@@ -66,32 +71,30 @@ public class CameraController : MonoBehaviour
     {
         if (context.started)
         {
-            CType = (CameraType)(((int)CType + 1) % Enum.GetNames(typeof(CameraType)).Length);
+            currentCameraID = (currentCameraID + 1) % CamDatas.Length;
+            swapCamID(currentCameraID) ;
+            
         }
     }
-    void FPSUpdate()
+
+    void swapCamID(int id)
+    {
+        cData = CamDatas[id];
+        cam.fieldOfView = cData.FOV;
+    }
+    void CamUpdate()
     {
         //Position
-        transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + Offset, ref vel, delay);
+        transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + cData.offset, ref vel, cData.smoothTime);
 
         //Rotation
         Vector3 cRotation = lookRotation;
-        cRotation =new Vector3(cRotation.x + (-lookVectorInput.y * sensitivity), cRotation.y + (lookVectorInput.x * sensitivity), cRotation.z);
+        cRotation =new Vector3(cRotation.x + (-lookVectorInput.y * cData.sensitivity), cRotation.y + (lookVectorInput.x * cData.sensitivity), cRotation.z);
         cRotation = new Vector3(
-            Mathf.Clamp(cRotation.x,ClampXRot.x,ClampXRot.y),
+            Mathf.Clamp(cRotation.x,cData.clampXRot.x, cData.clampXRot.y),
             cRotation.y,
             cRotation.z);
         lookRotation = cRotation;
         transform.localRotation = Quaternion.Euler(cRotation);
-    }
-
-    void TPSUpdate()
-    {
-        
-    }
-
-    void IsometricUpdate()
-    {
-
     }
 }
