@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
 
+    public bool rotateWithCam;
+
     private Camera cam;
     // Start is called before the first frame update
     void Start()
@@ -29,9 +31,20 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.rotation = Quaternion.Euler(0,cam.transform.rotation.eulerAngles.y,0);
+        if (rotateWithCam)
+        {
+            transform.rotation = Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0);
+        }
+        else
+        {
+            if (rb.velocity.magnitude > 0.2) {
+                Debug.Log(rb.velocity);
+                Quaternion velRot = Quaternion.LookRotation(rb.velocity);
+                transform.rotation = Quaternion.Euler(0, velRot.eulerAngles.y , 0);
+            }
+        }
         //Debug.Log(transform.rotation);
 
         if (Physics.Raycast(gCheck.position, -Vector3.up, 0.5f)){
@@ -58,7 +71,6 @@ public class PlayerController : MonoBehaviour
             Vector3 speed = dir * (accel * Time.deltaTime);
             rb.AddForce(speed, ForceMode.Impulse);
         }
-        Debug.Log(rb.velocity.magnitude);
         if (rb.velocity.magnitude < 0.1) { rb.velocity = Vector3.zero; }
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }

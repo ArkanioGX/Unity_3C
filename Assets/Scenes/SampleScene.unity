@@ -1139,7 +1139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba6eca30c30c6b45ba9df243da72b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  target: {fileID: 1384548046}
   currentCameraID: 0
   CamDatas:
   - FOV: 110
@@ -1147,6 +1147,31 @@ MonoBehaviour:
     sensitivity: 1
     smoothTime: 0
     clampXRot: {x: -30, y: 30}
+    rotateAroundTarget: 0
+    targetUseCamRot: 1
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 55
+  - FOV: 110
+    offset: {x: -6, y: 3, z: 0}
+    sensitivity: 1
+    smoothTime: 0.2
+    clampXRot: {x: -30, y: 30}
+    rotateAroundTarget: 0
+    targetUseCamRot: 0
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+  - FOV: 50
+    offset: {x: 0, y: 0, z: 0}
+    sensitivity: 1
+    smoothTime: 0
+    clampXRot: {x: -60, y: 60}
+    rotateAroundTarget: 0
+    targetUseCamRot: 1
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 55
 --- !u!1 &1053559114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,7 +1216,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1092494279}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Boots
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2315,7 +2340,7 @@ GameObject:
   - component: {fileID: 1346271269}
   - component: {fileID: 1346271271}
   - component: {fileID: 1346271270}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3231,6 +3256,7 @@ MonoBehaviour:
   groundDrag: 5
   airDrag: 0.5
   gCheck: {fileID: 190683193}
+  rotateWithCam: 0
 --- !u!114 &1384548053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3571,7 +3597,7 @@ GameObject:
   - component: {fileID: 1656920291}
   - component: {fileID: 1656920293}
   - component: {fileID: 1656920292}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3654,7 +3680,7 @@ GameObject:
   - component: {fileID: 1758483315}
   - component: {fileID: 1758483317}
   - component: {fileID: 1758483316}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3985,7 +4011,7 @@ GameObject:
   - component: {fileID: 1896694559}
   - component: {fileID: 1896694561}
   - component: {fileID: 1896694560}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

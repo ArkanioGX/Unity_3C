@@ -28,7 +28,11 @@ public class CameraController : MonoBehaviour
 
         public Vector2 clampXRot;
 
-        public bool hideComplementary;
+        public bool rotateAroundTarget = false;
+
+        public bool targetUseCamRot = true;
+
+        public LayerMask cullingMask;
     }
 
     Camera cam;
@@ -56,7 +60,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         checkInput();
         CamUpdate();
@@ -81,6 +85,13 @@ public class CameraController : MonoBehaviour
     {
         cData = CamDatas[id];
         cam.fieldOfView = cData.FOV;
+        if (target.GetComponent<PlayerController>() != null)
+        {
+            target.GetComponent<PlayerController>().rotateWithCam = cData.targetUseCamRot;
+        }
+        cam.cullingMask = cData.cullingMask;
+        
+        
     }
     void CamUpdate()
     {
