@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &96112286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96112288}
+  - component: {fileID: 96112287}
+  m_Layer: 0
+  m_Name: CamPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &96112287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96112286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 842ba681e7b6bef45aeb5a925519cc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &96112288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96112286}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.926097, y: 10.331005, z: 3.343502}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &190683192
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +416,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 32427b92eb7d8e04ab5f2a7a746c8a7c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -682,7 +726,7 @@ GameObject:
   - component: {fileID: 599958444}
   - component: {fileID: 599958443}
   - component: {fileID: 599958442}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,37 +1185,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1384548046}
   currentCameraID: 0
+  sensitivity: 2
   CamDatas:
-  - FOV: 110
-    offset: {x: 0, y: 0, z: 0}
-    sensitivity: 1
-    smoothTime: 0
-    clampXRot: {x: -30, y: 30}
-    rotateAroundTarget: 0
-    targetUseCamRot: 1
-    cullingMask:
-      serializedVersion: 2
-      m_Bits: 55
-  - FOV: 110
-    offset: {x: -6, y: 3, z: 0}
-    sensitivity: 1
-    smoothTime: 0.2
-    clampXRot: {x: -30, y: 30}
-    rotateAroundTarget: 0
-    targetUseCamRot: 0
-    cullingMask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-  - FOV: 50
-    offset: {x: 0, y: 0, z: 0}
-    sensitivity: 1
-    smoothTime: 0
-    clampXRot: {x: -60, y: 60}
-    rotateAroundTarget: 0
-    targetUseCamRot: 1
-    cullingMask:
-      serializedVersion: 2
-      m_Bits: 55
+  - useCPoints: 0
+    CamData: {fileID: 11400000, guid: f17f3f78120b9f645b61e4981229d81c, type: 2}
+  - useCPoints: 0
+    CamData: {fileID: 11400000, guid: 37a60858583054f459534038dfc5baf5, type: 2}
+  - useCPoints: 1
+    CamData: {fileID: 11400000, guid: 37a60858583054f459534038dfc5baf5, type: 2}
+  transitionTime: 0.2
 --- !u!1 &1053559114
 GameObject:
   m_ObjectHideFlags: 0
@@ -3131,9 +3153,9 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaTensor: {x: 0, y: 0, z: 0}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
@@ -3146,8 +3168,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Constraints: 80
+  m_CollisionDetection: 1
 --- !u!136 &1384548048
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3251,12 +3273,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c83f774c07d49a41b478dbb38c20b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 35
-  accel: 80
-  groundDrag: 5
+  maxSpeed: 10
+  accel: 10
+  groundDrag: 15
   airDrag: 0.5
+  angleSmooth: 0.1
   gCheck: {fileID: 190683193}
   rotateWithCam: 0
+  updateFwd: 0
 --- !u!114 &1384548053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4263,3 +4287,4 @@ SceneRoots:
   - {fileID: 1531327120}
   - {fileID: 1349459458}
   - {fileID: 1359600302}
+  - {fileID: 96112288}

@@ -14,32 +14,29 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private int currentCameraID = 0;
 
+    [SerializeField]
+    [Min(0f)]
+    private float sensitivity = 1;
+
     [Serializable]
-    class CameraData
+    class CamControlData
     {
-        [Range(10f, 180f)]
-        public float FOV = 90;
+        [Header("Use Cam Data from CamPoint ?")]
+        public bool useCPoints;
 
-        public Vector3 offset;
-
-        public float sensitivity;
-
-        public float smoothTime;
-
-        public Vector2 clampXRot;
-
-        public bool rotateAroundTarget = false;
-
-        public bool targetUseCamRot = true;
-
-        public LayerMask cullingMask;
+        public CameraData CamData;
     }
 
     Camera cam;
 
-    [SerializeField] private CameraData[] CamDatas = new CameraData[0];
+    [SerializeField] private CamControlData[] CamDatas = new CamControlData[0];
+    private CamControlData currentCCD; 
     private CameraData cData;
 
+    [SerializeField]
+    private float transitionTime = 0.2f;
+
+    private float tTime = 1;
 
     private Vector3 vel;
 
@@ -48,6 +45,8 @@ public class CameraController : MonoBehaviour
     private Vector2 lookVectorInput;
 
     private Vector3 lookRotation = new Vector3();
+
+    private CameraData oldCData;
 
 
 
@@ -63,13 +62,26 @@ public class CameraController : MonoBehaviour
     void FixedUpdate()
     {
         checkInput();
-        CamUpdate();
+        if (currentCCD.useCPoints)
+        {
+
+        }
+        else
+        {
+            CamUpdate();
+            if (tTime != 1) { transitionUpdate(); }
+        }
+        
     }
 
     private void checkInput()
     {
         lookVectorInput = pInput.currentActionMap.FindAction("Look").ReadValue<Vector2>();
+        lookVectorInput = cData.invertedLook ? lookVectorInput * -1 : lookVectorInput; //Invert input
+        Debug.Log(lookVectorInput);
     }
+
+   
 
     public void CameraChange(InputAction.CallbackContext context)
     {
@@ -83,29 +95,66 @@ public class CameraController : MonoBehaviour
 
     void swapCamID(int id)
     {
-        cData = CamDatas[id];
-        cam.fieldOfView = cData.FOV;
+        oldCData = cData;
+        currentCCD = CamDatas[id];
+        cData = currentCCD.CamData;
+        
         if (target.GetComponent<PlayerController>() != null)
         {
             target.GetComponent<PlayerController>().rotateWithCam = cData.targetUseCamRot;
+            target.GetComponent<PlayerController>().updateFwd = cData.updateFwdWhenPressed;
         }
         cam.cullingMask = cData.cullingMask;
+
+        if (cData.useMouse)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
         
-        
+        tTime = 0;
     }
     void CamUpdate()
     {
-        //Position
-        transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + cData.offset, ref vel, cData.smoothTime);
-
+        
         //Rotation
         Vector3 cRotation = lookRotation;
-        cRotation =new Vector3(cRotation.x + (-lookVectorInput.y * cData.sensitivity), cRotation.y + (lookVectorInput.x * cData.sensitivity), cRotation.z);
+        cRotation =new Vector3(cRotation.x + (-lookVectorInput.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lookVectorInput.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
         cRotation = new Vector3(
             Mathf.Clamp(cRotation.x,cData.clampXRot.x, cData.clampXRot.y),
             cRotation.y,
             cRotation.z);
         lookRotation = cRotation;
         transform.localRotation = Quaternion.Euler(cRotation);
+
+        //Position
+        if (cData.rotateAroundTarget)
+        {
+            Vector3 tpos = target.transform.position + cData.offset;
+            Vector3 rPos = (transform.localRotation * Vector3.back) * cData.CamDistance;
+            transform.position = Vector3.SmoothDamp(transform.position, tpos + rPos, ref vel, cData.smoothTime); 
+        }
+        else
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + cData.offset, ref vel, cData.smoothTime);
+        }
+    }
+
+    private void transitionUpdate()
+    {
+        if (oldCData != null)
+        {
+            tTime = Mathf.Clamp(tTime + Time.deltaTime / transitionTime, 0, 1);
+            cam.fieldOfView = Mathf.Lerp(oldCData.FOV, cData.FOV, tTime);
+        }
+        else
+        {
+            tTime = 1;
+        }
     }
 }
