@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: FPS
+  m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
+  cData:
+    FOV: 90
+    offset: {x: 0, y: 0, z: 0}
+    sensitivityMultiplier: 1
+    smoothTime: 0
+    clampXRot: {x: 0, y: 0}
+    rotateAroundTarget: 0
+    lookAtTarget: 0
+    useCustomPosition: 0
+    targetUseCamRot: 1
+    updateFwdWhenPressed: 1
+    CamDistance: 0
+    invertedLook: 0
+    useMouse: 1
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 0

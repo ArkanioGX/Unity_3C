@@ -1,8 +1,14 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Camera Data", menuName = "New Camera Data", order = 1)]
-public class CameraData : ScriptableObject
+[CreateAssetMenu(fileName = "Camera Data", menuName = "Create Camera Data", order = 1)]
+public class CameraDataScriptableObject : ScriptableObject
+{
+    public CameraData cData;
+}
+
+[Serializable]
+public class CameraData
 {
     
 
@@ -21,6 +27,8 @@ public class CameraData : ScriptableObject
     public Vector2 clampXRot;
 
     public bool rotateAroundTarget = false;
+    public bool lookAtTarget = false;
+    public bool useCustomPosition = false;
 
     public bool targetUseCamRot = true;
     public bool updateFwdWhenPressed = true;

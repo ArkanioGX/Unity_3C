@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     public bool updateFwd;
 
     private Camera cam;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -100,5 +102,21 @@ public class PlayerController : MonoBehaviour
         }
         if (rb.velocity.magnitude < 0.1) { rb.velocity = Vector3.zero; }
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CamPoints"))
+        {
+            cam.GetComponent<CameraController>().AddCamPointTrigger(other.GetComponent<CameraPoint>());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("CamPoints"))
+        {
+            cam.GetComponent<CameraController>().RemoveCamPointTrigger(other.GetComponent<CameraPoint>());
+        }
     }
 }

@@ -18,12 +18,15 @@ public class CameraController : MonoBehaviour
     [Min(0f)]
     private float sensitivity = 1;
 
+    public bool useCPoints;
+
+
     [Serializable]
     class CamControlData
     {
-        [Header("Use Cam Data from CamPoint ?")]
-        public bool useCPoints;
-
+        [Header("Camera Datas")]
+        [Tooltip("If this value in null then use the value below")]
+        public CameraDataScriptableObject CamDataSC ;
         public CameraData CamData;
     }
 
@@ -48,6 +51,8 @@ public class CameraController : MonoBehaviour
 
     private CameraData oldCData;
 
+    public List<CameraPoint> cpList;
+
 
 
 
@@ -62,15 +67,8 @@ public class CameraController : MonoBehaviour
     void FixedUpdate()
     {
         checkInput();
-        if (currentCCD.useCPoints)
-        {
-
-        }
-        else
-        {
-            CamUpdate();
-            if (tTime != 1) { transitionUpdate(); }
-        }
+        CamUpdate();
+        if (tTime != 1) { transitionUpdate(); }
         
     }
 
@@ -97,7 +95,7 @@ public class CameraController : MonoBehaviour
     {
         oldCData = cData;
         currentCCD = CamDatas[id];
-        cData = currentCCD.CamData;
+        cData = currentCCD.CamDataSC != null ? currentCCD.CamDataSC.cData : currentCCD.CamData ;
         
         if (target.GetComponent<PlayerController>() != null)
         {
@@ -121,16 +119,23 @@ public class CameraController : MonoBehaviour
     }
     void CamUpdate()
     {
-        
+
         //Rotation
-        Vector3 cRotation = lookRotation;
-        cRotation =new Vector3(cRotation.x + (-lookVectorInput.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lookVectorInput.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
-        cRotation = new Vector3(
-            Mathf.Clamp(cRotation.x,cData.clampXRot.x, cData.clampXRot.y),
-            cRotation.y,
-            cRotation.z);
-        lookRotation = cRotation;
-        transform.localRotation = Quaternion.Euler(cRotation);
+        if (cData.lookAtTarget == false)
+        {
+            Vector3 cRotation = lookRotation;
+            cRotation = new Vector3(cRotation.x + (-lookVectorInput.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lookVectorInput.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
+            cRotation = new Vector3(
+                Mathf.Clamp(cRotation.x, cData.clampXRot.x, cData.clampXRot.y),
+                cRotation.y,
+                cRotation.z);
+            lookRotation = cRotation;
+            transform.localRotation = Quaternion.Euler(cRotation);
+        }
+        else
+        {
+            transform.LookAt(target.transform);
+        }
 
         //Position
         if (cData.rotateAroundTarget)
@@ -155,6 +160,19 @@ public class CameraController : MonoBehaviour
         else
         {
             tTime = 1;
+        }
+    }
+
+    public void AddCamPointTrigger(CameraPoint cps)
+    {
+        cpList.Add(cps);
+    }
+
+    public void RemoveCamPointTrigger(CameraPoint cps)
+    {
+        while (cpList.Contains(cps))
+        {
+            cpList.Remove(cps);
         }
     }
 }
