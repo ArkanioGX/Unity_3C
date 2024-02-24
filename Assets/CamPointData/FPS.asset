@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: FPS
   m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
   cData:
-    FOV: 110
-    offset: {x: 0, y: 0, z: 0}
+    FOV: 90
     sensitivityMultiplier: 1
-    smoothTime: 0.01
+    useCustomPosition: 0
+    useCustomRotation: 0
+    CustomPositionRot:
+      customTransform: {fileID: 0}
+      pos: {x: 0, y: 0, z: 0}
+      rot: {x: 0, y: 0, z: 0, w: 0}
+    offset: {x: 0, y: 0, z: 0}
+    smoothTime: 0
     clampXRot: {x: -60, y: 60}
     rotateAroundTarget: 0
     lookAtTarget: 0
-    useCustomPosition: 0
-    useCustomRotation: 0
     targetUseCamRot: 1
     updateFwdWhenPressed: 1
     CamDistance: 0

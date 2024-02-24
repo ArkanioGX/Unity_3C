@@ -142,9 +142,9 @@ public class CameraController : MonoBehaviour
     {
 
         //Rotation
-        if (useCPoints && cData.useCustomRotation)
+        if (cData.useCustomRotation)
         {
-            transform.position = CurrentCamPoint.CamPos.position;
+            transform.rotation = cData.CustomPositionRot.getRotation();
         }
         else
         {
@@ -152,7 +152,6 @@ public class CameraController : MonoBehaviour
             {
                 Vector3 cRotation = lookRotation;
                 Vector2 lvi = lookVectorInput * Time.deltaTime;
-                Debug.Log(lvi);
                 cRotation = new Vector3(cRotation.x + (-lvi.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lvi.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
                 cRotation = new Vector3(
                     Mathf.Clamp(cRotation.x, cData.clampXRot.x, cData.clampXRot.y),
@@ -169,9 +168,9 @@ public class CameraController : MonoBehaviour
         }
 
         //Position
-        if (useCPoints && cData.useCustomPosition)
+        if (cData.useCustomPosition)
         {
-            transform.position = CurrentCamPoint.CamPos.position;
+            transform.position = cData.CustomPositionRot.getPosition();
         }
         else
         {

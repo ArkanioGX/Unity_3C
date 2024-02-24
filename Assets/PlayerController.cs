@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
             Vector3 speed = dir * (accel * Time.fixedDeltaTime);
             rb.MovePosition(transform.position + speed);
+            //rb.AddForce(speed, ForceMode.Acceleration);
         }
         if (rb.velocity.magnitude < 0.1) { rb.velocity = Vector3.zero; }
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);

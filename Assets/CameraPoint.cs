@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class CameraPoint : MonoBehaviour
 {
-    public Transform CamPos;
     public CamControlData data;
 }
