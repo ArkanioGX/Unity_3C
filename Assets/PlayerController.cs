@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         if (dir.magnitude > 0.1)
         {
             //Remove Y Value from dir to avoid fly
-            dir = new Vector3(dir.x, 0, dir.z);
+            dir = new Vector3(dir.x, 0, dir.z).normalized;
 
             Vector3 speed = dir * (accel * Time.fixedDeltaTime);
             rb.MovePosition(transform.position + speed);

@@ -28,7 +28,10 @@ public class CameraData
 
     public bool rotateAroundTarget = false;
     public bool lookAtTarget = false;
+    [Tooltip("Available only for cam points")]
     public bool useCustomPosition = false;
+    [Tooltip("Available only for cam points")]
+    public bool useCustomRotation = false;
 
     public bool targetUseCamRot = true;
     public bool updateFwdWhenPressed = true;
@@ -39,4 +42,18 @@ public class CameraData
     public bool useMouse = true;
 
     public LayerMask cullingMask;
+}
+
+[Serializable]
+public class CamControlData
+{
+    [Header("Camera Datas")]
+    [Tooltip("If this value in null then use the value below")]
+    public CameraDataScriptableObject CamDataSC;
+    public CameraData CamData;
+
+    public CameraData getcData()
+    {
+        return CamDataSC != null ? CamDataSC.cData : CamData;
+    }
 }

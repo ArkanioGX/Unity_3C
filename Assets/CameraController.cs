@@ -19,16 +19,7 @@ public class CameraController : MonoBehaviour
     private float sensitivity = 1;
 
     public bool useCPoints;
-
-
-    [Serializable]
-    class CamControlData
-    {
-        [Header("Camera Datas")]
-        [Tooltip("If this value in null then use the value below")]
-        public CameraDataScriptableObject CamDataSC ;
-        public CameraData CamData;
-    }
+    private CameraPoint CurrentCamPoint;
 
     Camera cam;
 
@@ -60,25 +51,50 @@ public class CameraController : MonoBehaviour
     {
         pInput = target.GetComponent<PlayerInput>();
         cam = GetComponent<Camera>();
-        swapCamID(currentCameraID);
+        swapCamViaID(currentCameraID);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         checkInput();
+
+
+    }
+
+    private void Update()
+    {
+        if (useCPoints) { swapCam(getCurrentData()); }
         CamUpdate();
         if (tTime != 1) { transitionUpdate(); }
-        
     }
 
     private void checkInput()
     {
         lookVectorInput = pInput.currentActionMap.FindAction("Look").ReadValue<Vector2>();
         lookVectorInput = cData.invertedLook ? lookVectorInput * -1 : lookVectorInput; //Invert input
-        Debug.Log(lookVectorInput);
     }
 
+    private CameraData getCurrentData()
+    {
+        if (cpList.Count > 0)
+        {
+            CameraPoint currentCP = null;
+            foreach (CameraPoint cp in cpList)
+            {
+                if (currentCP == null || Vector3.Distance(cp.transform.position,target.transform.position) < Vector3.Distance(currentCP.transform.position, target.transform.position))
+                {
+                    currentCP = cp;
+                }
+            }
+            CurrentCamPoint = currentCP;
+            return currentCP.data.getcData(); 
+        }
+        else
+        {
+            return currentCCD.getcData();
+        }
+    }
    
 
     public void CameraChange(InputAction.CallbackContext context)
@@ -86,17 +102,21 @@ public class CameraController : MonoBehaviour
         if (context.started)
         {
             currentCameraID = (currentCameraID + 1) % CamDatas.Length;
-            swapCamID(currentCameraID) ;
+            swapCamViaID(currentCameraID) ;
             
         }
     }
 
-    void swapCamID(int id)
+    void swapCamViaID(int id)
     {
         oldCData = cData;
         currentCCD = CamDatas[id];
-        cData = currentCCD.CamDataSC != null ? currentCCD.CamDataSC.cData : currentCCD.CamData ;
-        
+        swapCam(currentCCD.getcData());
+    }
+
+    void swapCam(CameraData cDataT)
+    {
+        cData = cDataT;
         if (target.GetComponent<PlayerController>() != null)
         {
             target.GetComponent<PlayerController>().rotateWithCam = cData.targetUseCamRot;
@@ -114,40 +134,59 @@ public class CameraController : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-        
+
         tTime = 0;
     }
+
     void CamUpdate()
     {
 
         //Rotation
-        if (cData.lookAtTarget == false)
+        if (useCPoints && cData.useCustomRotation)
         {
-            Vector3 cRotation = lookRotation;
-            cRotation = new Vector3(cRotation.x + (-lookVectorInput.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lookVectorInput.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
-            cRotation = new Vector3(
-                Mathf.Clamp(cRotation.x, cData.clampXRot.x, cData.clampXRot.y),
-                cRotation.y,
-                cRotation.z);
-            lookRotation = cRotation;
-            transform.localRotation = Quaternion.Euler(cRotation);
+            transform.position = CurrentCamPoint.CamPos.position;
         }
         else
         {
-            transform.LookAt(target.transform);
+            if (cData.lookAtTarget == false)
+            {
+                Vector3 cRotation = lookRotation;
+                Vector2 lvi = lookVectorInput * Time.deltaTime;
+                Debug.Log(lvi);
+                cRotation = new Vector3(cRotation.x + (-lvi.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lvi.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
+                cRotation = new Vector3(
+                    Mathf.Clamp(cRotation.x, cData.clampXRot.x, cData.clampXRot.y),
+                    cRotation.y,
+                    cRotation.z);
+                //cRotation *= Time.deltaTime;
+                lookRotation = cRotation;
+                transform.localRotation = Quaternion.Euler(cRotation);
+            }
+            else
+            {
+                transform.LookAt(target.transform);
+            }
         }
 
         //Position
-        if (cData.rotateAroundTarget)
+        if (useCPoints && cData.useCustomPosition)
         {
-            Vector3 tpos = target.transform.position + cData.offset;
-            Vector3 rPos = (transform.localRotation * Vector3.back) * cData.CamDistance;
-            transform.position = Vector3.SmoothDamp(transform.position, tpos + rPos, ref vel, cData.smoothTime); 
+            transform.position = CurrentCamPoint.CamPos.position;
         }
         else
         {
-            transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + cData.offset, ref vel, cData.smoothTime);
+            if (cData.rotateAroundTarget)
+            {
+                Vector3 tpos = target.transform.position + cData.offset;
+                Vector3 rPos = (transform.localRotation * Vector3.back) * cData.CamDistance;
+                transform.position = Vector3.SmoothDamp(transform.position, tpos + rPos, ref vel, cData.smoothTime);
+            }
+            else
+            {
+                transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + cData.offset, ref vel, cData.smoothTime);
+            }
         }
+        
     }
 
     private void transitionUpdate()

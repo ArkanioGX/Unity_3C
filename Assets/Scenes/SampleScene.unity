@@ -156,23 +156,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CamPos: {fileID: 688294332}
-  cData:
-    FOV: 90
-    offset: {x: 0, y: 0, z: 0}
-    sensitivityMultiplier: 1
-    smoothTime: 0
-    clampXRot: {x: 0, y: 0}
-    rotateAroundTarget: 0
-    lookAtTarget: 0
-    useCustomPosition: 0
-    targetUseCamRot: 1
-    updateFwdWhenPressed: 1
-    CamDistance: 0
-    invertedLook: 0
-    useMouse: 1
-    cullingMask:
-      serializedVersion: 2
-      m_Bits: 0
+  data:
+    CamDataSC: {fileID: 0}
+    CamData:
+      FOV: 90
+      offset: {x: 0, y: 0, z: 0}
+      sensitivityMultiplier: 1
+      smoothTime: 0
+      clampXRot: {x: 0, y: 0}
+      rotateAroundTarget: 0
+      lookAtTarget: 1
+      useCustomPosition: 1
+      useCustomRotation: 0
+      targetUseCamRot: 0
+      updateFwdWhenPressed: 0
+      CamDistance: 0
+      invertedLook: 0
+      useMouse: 1
+      cullingMask:
+        serializedVersion: 2
+        m_Bits: 63
 --- !u!4 &96112288
 Transform:
   m_ObjectHideFlags: 0
@@ -914,13 +917,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688294331}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 0.258819, w: 0.9659259}
+  m_LocalPosition: {x: 0.5992993, y: 0.41489956, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 96112288}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,9 +1290,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1384548046}
   currentCameraID: 0
-  sensitivity: 2
+  sensitivity: 80
+  useCPoints: 1
   CamDatas:
-  - useCPoints: 0
+  - CamDataSC: {fileID: 11400000, guid: 6b6d07ca6df01ba42aefa1661ab3bfe8, type: 2}
     CamData:
       FOV: 90
       offset: {x: 0, y: 0, z: 0}
@@ -1299,6 +1303,7 @@ MonoBehaviour:
       rotateAroundTarget: 0
       lookAtTarget: 0
       useCustomPosition: 0
+      useCustomRotation: 0
       targetUseCamRot: 1
       updateFwdWhenPressed: 1
       CamDistance: 0
@@ -1307,16 +1312,17 @@ MonoBehaviour:
       cullingMask:
         serializedVersion: 2
         m_Bits: 55
-  - useCPoints: 0
+  - CamDataSC: {fileID: 0}
     CamData:
       FOV: 90
       offset: {x: 0, y: 0, z: 0}
       sensitivityMultiplier: 1
       smoothTime: 0
-      clampXRot: {x: -60, y: 60}
+      clampXRot: {x: 0, y: 60}
       rotateAroundTarget: 1
       lookAtTarget: 0
       useCustomPosition: 0
+      useCustomRotation: 0
       targetUseCamRot: 0
       updateFwdWhenPressed: 1
       CamDistance: 7

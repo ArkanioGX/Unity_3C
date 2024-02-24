@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: FPS
   m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
   cData:
-    FOV: 90
+    FOV: 110
     offset: {x: 0, y: 0, z: 0}
     sensitivityMultiplier: 1
-    smoothTime: 0
-    clampXRot: {x: 0, y: 0}
+    smoothTime: 0.01
+    clampXRot: {x: -60, y: 60}
     rotateAroundTarget: 0
     lookAtTarget: 0
     useCustomPosition: 0
+    useCustomRotation: 0
     targetUseCamRot: 1
     updateFwdWhenPressed: 1
     CamDistance: 0
@@ -28,4 +29,4 @@ MonoBehaviour:
     useMouse: 1
     cullingMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 55
