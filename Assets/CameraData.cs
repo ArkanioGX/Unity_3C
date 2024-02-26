@@ -87,11 +87,11 @@ public class CustomPosRot
     }
 }
 
-/*#if UNITY_EDITOR
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(CameraData))]
 public class Editor_CamData : PropertyDrawer
 {
-
+    /*
     public override VisualElement CreatePropertyGUI(SerializedProperty property)
     {
         // Create property container element.
@@ -109,8 +109,8 @@ public class Editor_CamData : PropertyDrawer
         }
 
         return container;
-    }
-    /*
+    }*/
+    
     const int UI_POSITION_INCREMENT = 20;
     SerializedProperty SP_FOV;
 
@@ -121,11 +121,11 @@ public class Editor_CamData : PropertyDrawer
         SerializedProperty SP_FOV = property.FindPropertyRelative("FOV");
         SerializedProperty SP_Sens = property.FindPropertyRelative("sensitivityMultiplier");
 
-        EditorGUI.PropertyField(UIPosition, SP_FOV);
+        EditorGUILayout.PropertyField(SP_FOV);
         if (SP_FOV.floatValue > 30f)
         {
             UIPosition.y += UI_POSITION_INCREMENT ;
-            EditorGUI.PropertyField (UIPosition, SP_Sens);
+            EditorGUILayout.PropertyField(SP_Sens);
         }
     }
 
@@ -133,4 +133,4 @@ public class Editor_CamData : PropertyDrawer
     
     }
 }
-#endif*/
+#endif
