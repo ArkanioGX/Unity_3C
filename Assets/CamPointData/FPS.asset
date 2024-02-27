@@ -13,24 +13,41 @@ MonoBehaviour:
   m_Name: FPS
   m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
   cData:
-    FOV: 90
-    sensitivityMultiplier: 1
-    useCustomPosition: 0
-    useCustomRotation: 0
-    CustomPositionRot:
-      customTransform: {fileID: 0}
-      pos: {x: 0, y: 0, z: 0}
-      rot: {x: 0, y: 0, z: 0, w: 0}
-    offset: {x: 0, y: 0, z: 0}
-    smoothTime: 0
-    clampXRot: {x: -60, y: 60}
-    rotateAroundTarget: 0
-    lookAtTarget: 0
-    targetUseCamRot: 1
-    updateFwdWhenPressed: 1
-    CamDistance: 0
-    invertedLook: 0
-    useMouse: 1
+    FOV: 10
     cullingMask:
       serializedVersion: 2
       m_Bits: 55
+    typeOfRotation: 3
+    staticRotation: {x: 0, y: 0, z: 0}
+    transformToCopyRotation: {fileID: 0}
+    targetToLookAt: 0
+    lookTarget: {fileID: 0}
+    offsetTarget: {x: 0, y: 0, z: 0}
+    sensitivityMultiplier: 1
+    invertedLook: 0
+    clampXRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    clampYRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    clampZRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    lockRotation:
+      x: 0
+      y: 0
+      z: 0
+    smoothTimeRotation: 0
+    targetUseCamRotation: 1
+    typeOfPosition: 1
+    staticPosition: {x: 0, y: 0, z: 0}
+    targetToBeAt: 0
+    transformToCopyPosition: {fileID: 0}
+    updateFwdWhenPressed: 1
+    CamDistance: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    smoothTimePosition: 0

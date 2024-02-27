@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1077,7 +1077,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1129,50 +1129,84 @@ MonoBehaviour:
   CamDatas:
   - CamDataSC: {fileID: 11400000, guid: 6b6d07ca6df01ba42aefa1661ab3bfe8, type: 2}
     CamData:
-      FOV: 86
-      sensitivityMultiplier: 1
-      useCustomPosition: 0
-      useCustomRotation: 0
-      CustomPositionRot:
-        customTransform: {fileID: 0}
-        pos: {x: 0, y: 0, z: 0}
-        rot: {x: 0, y: 0, z: 0, w: 0}
-      offset: {x: 0, y: 0, z: 0}
-      smoothTime: 0
-      clampXRot: {x: 0, y: 0}
-      rotateAroundTarget: 0
-      lookAtTarget: 0
-      targetUseCamRot: 1
-      updateFwdWhenPressed: 1
-      CamDistance: 0
-      invertedLook: 0
-      useMouse: 1
+      FOV: 180
       cullingMask:
         serializedVersion: 2
         m_Bits: 0
-  - CamDataSC: {fileID: 0}
+      typeOfRotation: 0
+      staticRotation: {x: 0, y: 0, z: 0}
+      transformToCopyRotation: {fileID: 0}
+      targetToLookAt: 0
+      lookTarget: {fileID: 0}
+      offsetTarget: {x: 0, y: 0, z: 0}
+      sensitivityMultiplier: 1
+      invertedLook: 0
+      clampXRotation:
+        clamp: 0
+        min: 0
+        max: 0
+      clampYRotation:
+        clamp: 0
+        min: 0
+        max: 0
+      clampZRotation:
+        clamp: 0
+        min: 0
+        max: 0
+      lockRotation:
+        x: 0
+        y: 0
+        z: 1
+      smoothTimeRotation: 0
+      targetUseCamRotation: 0
+      typeOfPosition: 0
+      staticPosition: {x: 0, y: 0, z: 0}
+      targetToBeAt: 0
+      transformToCopyPosition: {fileID: 0}
+      updateFwdWhenPressed: 1
+      CamDistance: 0
+      positionOffset: {x: 0, y: 0, z: 0}
+      smoothTimePosition: 0
+  - CamDataSC: {fileID: 11400000, guid: f9115f575d96cd44ba628f8ed4fda76c, type: 2}
     CamData:
       FOV: 80
-      sensitivityMultiplier: 1
-      useCustomPosition: 0
-      useCustomRotation: 0
-      CustomPositionRot:
-        customTransform: {fileID: 0}
-        pos: {x: 0, y: 0, z: 0}
-        rot: {x: 0, y: 0, z: 0, w: 0}
-      offset: {x: 0, y: 0, z: 0}
-      smoothTime: 0
-      clampXRot: {x: 0, y: 40}
-      rotateAroundTarget: 1
-      lookAtTarget: 0
-      targetUseCamRot: 1
-      updateFwdWhenPressed: 1
-      CamDistance: 10
-      invertedLook: 0
-      useMouse: 1
       cullingMask:
         serializedVersion: 2
         m_Bits: 63
+      typeOfRotation: 0
+      staticRotation: {x: 0, y: 0, z: 0}
+      transformToCopyRotation: {fileID: 0}
+      targetToLookAt: 0
+      lookTarget: {fileID: 0}
+      offsetTarget: {x: 0, y: 0, z: 0}
+      sensitivityMultiplier: 1
+      invertedLook: 0
+      clampXRotation:
+        clamp: 0
+        min: 0
+        max: 0
+      clampYRotation:
+        clamp: 0
+        min: 0
+        max: 0
+      clampZRotation:
+        clamp: 0
+        min: 0
+        max: 0
+      lockRotation:
+        x: 0
+        y: 0
+        z: 0
+      smoothTimeRotation: 0
+      targetUseCamRotation: 0
+      typeOfPosition: 0
+      staticPosition: {x: 0, y: 0, z: 0}
+      targetToBeAt: 0
+      transformToCopyPosition: {fileID: 0}
+      updateFwdWhenPressed: 1
+      CamDistance: 10
+      positionOffset: {x: 0, y: 0, z: 0}
+      smoothTimePosition: 0
   transitionTime: 0.2
   cpList: []
 --- !u!1 &1053559114
@@ -3261,7 +3295,7 @@ MonoBehaviour:
   angleSmooth: 0.1
   gCheck: {fileID: 190683193}
   rotateWithCam: 0
-  updateFwd: 0
+  canUpdateFwd: 0
 --- !u!114 &1384548053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4276,9 +4310,25 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3445610123806209190, guid: 446e79ff75973dc49a5318dba0339c8a, type: 3}
+      propertyPath: data.CamData.targetToBeAt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445610123806209190, guid: 446e79ff75973dc49a5318dba0339c8a, type: 3}
+      propertyPath: data.CamData.typeOfPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445610123806209190, guid: 446e79ff75973dc49a5318dba0339c8a, type: 3}
+      propertyPath: data.CamData.typeOfRotation
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3445610123806209190, guid: 446e79ff75973dc49a5318dba0339c8a, type: 3}
       propertyPath: data.CamData.useCustomPosition
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3445610123806209190, guid: 446e79ff75973dc49a5318dba0339c8a, type: 3}
+      propertyPath: data.CamData.transformToCopyPosition
+      value: 
+      objectReference: {fileID: 688294332}
     - target: {fileID: 3445610123806209190, guid: 446e79ff75973dc49a5318dba0339c8a, type: 3}
       propertyPath: data.CamData.CustomPositionRot.customTransform
       value: 
