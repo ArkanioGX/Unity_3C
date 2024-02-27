@@ -29,7 +29,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool rotateWithCam;
     [HideInInspector]
-    public bool updateFwd;
+    private bool updateFwd;
+    public bool canUpdateFwd; 
 
     private Camera cam;
 
@@ -58,7 +59,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (updateFwd) { changeForward(); }
+        if (canUpdateFwd && !updateFwd && moveKeyInput == Vector2.zero){ updateFwd = true; canUpdateFwd = false; }
+        if (updateFwd) { changeForward();}
         Vector3 fwdInput = camForward * moveKeyInput.y;
         Vector3 rsInput = camRight * moveKeyInput.x;
         Vector3 dir = fwdInput + rsInput;
@@ -103,6 +105,19 @@ public class PlayerController : MonoBehaviour
         }
         if (rb.velocity.magnitude < 0.1) { rb.velocity = Vector3.zero; }
         rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+    }
+
+    public void setUseForwardCamera(bool useForwardCamera)
+    {
+        if (useForwardCamera)
+        {
+            canUpdateFwd = true;
+        }
+        else
+        {
+            canUpdateFwd = false;
+            updateFwd = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
