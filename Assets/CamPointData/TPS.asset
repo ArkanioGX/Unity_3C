@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: FPS
+  m_Name: TPS
   m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
   cData:
-    FOV: 10
+    FOV: 90
     cullingMask:
       serializedVersion: 2
-      m_Bits: 55
+      m_Bits: 63
     typeOfRotation: 3
     staticRotation: {x: 0, y: 0, z: 0}
     transformToCopyRotation: {fileID: 0}
@@ -24,11 +24,11 @@ MonoBehaviour:
     lookTarget: {fileID: 0}
     offsetTarget: {x: 0, y: 0, z: 0}
     sensitivityMultiplier: 1
-    invertedLook: 0
+    invertedLook: 1
     clampXRotation:
       clamp: 0
       min: 0
-      max: 0
+      max: 45
     clampYRotation:
       clamp: 0
       min: 0
@@ -42,12 +42,12 @@ MonoBehaviour:
       y: 0
       z: 0
     smoothTimeRotation: 0
-    targetUseCamRotation: 1
-    typeOfPosition: 1
+    targetUseCamRotation: 0
+    typeOfPosition: 2
     staticPosition: {x: 0, y: 0, z: 0}
     targetToBeAt: 0
     transformToCopyPosition: {fileID: 0}
     updateFwdWhenPressed: 1
-    CamDistance: 0
+    CamDistance: 8
     positionOffset: {x: 0, y: 0, z: 0}
     smoothTimePosition: 0

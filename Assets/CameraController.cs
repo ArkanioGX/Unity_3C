@@ -116,76 +116,99 @@ public class CameraController : MonoBehaviour
 
     void swapCam(CameraData cDataT)
     {
-        cData = cDataT;
-        if (target.GetComponent<PlayerController>() != null)
+        if (cDataT != cData)
         {
-            target.GetComponent<PlayerController>().rotateWithCam = cData.targetUseCamRot;
-            target.GetComponent<PlayerController>().updateFwd = cData.updateFwdWhenPressed;
-        }
-        cam.cullingMask = cData.cullingMask;
+            cData = cDataT;
+            if (target.GetComponent<PlayerController>() != null)
+            {
+                target.GetComponent<PlayerController>().rotateWithCam = cData.targetUseCamRotation;
+                target.GetComponent<PlayerController>().setUseForwardCamera(cData.updateFwdWhenPressed);
+            }
+            cam.cullingMask = cData.cullingMask;
 
-        if (cData.useMouse)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        else
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
+            if (cData.typeOfRotation == RotationType.UseMouse)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
 
-        tTime = 0;
+            tTime = 0;
+        }
     }
 
     void CamUpdate()
     {
-
+        Quaternion baseRot = transform.rotation;
+        Quaternion nextRot = Quaternion.identity;
         //Rotation
-        if (cData.useCustomRotation)
+        switch (cData.typeOfRotation)
         {
-            transform.rotation = cData.CustomPositionRot.getRotation();
-        }
-        else
-        {
-            if (cData.lookAtTarget == false)
-            {
+            case RotationType.Static:
+                nextRot = Quaternion.Euler(cData.staticRotation);
+                break;
+            case RotationType.UseTransformRotation:
+                nextRot = cData.transformToCopyRotation.rotation;
+                break;
+            case RotationType.LookTarget:
+                Transform trgt = target.transform;
+                switch (cData.targetToLookAt)
+                {
+                    case TargetType.Custom:
+                        trgt = cData.lookTarget;
+                        break;
+                    default: break;
+                }
+                nextRot = Quaternion.LookRotation((trgt.position - transform.position).normalized);
+                //transform.LookAt(trgt);
+                break;
+            case RotationType.UseMouse:
                 Vector3 cRotation = lookRotation;
                 Vector2 lvi = lookVectorInput * Time.deltaTime;
                 cRotation = new Vector3(cRotation.x + (-lvi.y * (sensitivity * cData.sensitivityMultiplier)), cRotation.y + (lvi.x * (sensitivity * cData.sensitivityMultiplier)), cRotation.z);
-                cRotation = new Vector3(
-                    Mathf.Clamp(cRotation.x, cData.clampXRot.x, cData.clampXRot.y),
-                    cRotation.y,
-                    cRotation.z);
                 //cRotation *= Time.deltaTime;
                 lookRotation = cRotation;
-                transform.localRotation = Quaternion.Euler(cRotation);
-            }
-            else
-            {
-                transform.LookAt(target.transform);
-            }
+                nextRot = Quaternion.Euler(cRotation);
+                break;
+            default: break;
         }
 
+        Vector3 nextRotEuler = nextRot.eulerAngles; //Lock
+
+        nextRotEuler.x = cData.lockRotation.x ? baseRot.eulerAngles.x : nextRotEuler.x;
+        nextRotEuler.y = cData.lockRotation.y ? baseRot.eulerAngles.y : nextRotEuler.y;
+        nextRotEuler.x = cData.lockRotation.z ? baseRot.eulerAngles.z : nextRotEuler.z;
+
+        nextRot = Quaternion.Euler(nextRotEuler);
+        transform.rotation = nextRot;
+        //Clamp Rotation
+
         //Position
-        if (cData.useCustomPosition)
+        switch (cData.typeOfPosition)
         {
-            transform.position = cData.CustomPositionRot.getPosition();
-        }
-        else
-        {
-            if (cData.rotateAroundTarget)
-            {
-                Vector3 tpos = target.transform.position + cData.offset;
+            case PositionType.Static:
+                transform.position = cData.staticPosition;
+                break;
+            case PositionType.FollowTransform:
+                Transform trgt = target.transform;
+                if (cData.targetToBeAt == TargetType.Custom)
+                {
+                    trgt = cData.transformToCopyPosition;
+                }
+                transform.position = Vector3.SmoothDamp(transform.position, trgt.transform.position + cData.positionOffset, ref vel, cData.smoothTimePosition);
+                break;
+            case PositionType.RotateAroundTarget:
+                Vector3 tpos = target.transform.position + cData.positionOffset;
                 Vector3 rPos = (transform.localRotation * Vector3.back) * cData.CamDistance;
-                transform.position = Vector3.SmoothDamp(transform.position, tpos + rPos, ref vel, cData.smoothTime);
-            }
-            else
-            {
-                transform.position = Vector3.SmoothDamp(transform.position, target.transform.position + cData.offset, ref vel, cData.smoothTime);
-            }
+                transform.position = Vector3.SmoothDamp(transform.position, tpos + rPos, ref vel, cData.smoothTimePosition);
+                break;
+            default : break;
+
         }
-        
     }
 
     private void transitionUpdate()
