@@ -125,6 +125,7 @@ public class CameraController : MonoBehaviour
                 target.GetComponent<PlayerController>().setUseForwardCamera(cData.updateFwdWhenPressed);
             }
             cam.cullingMask = cData.cullingMask;
+            //cam.orthographic = true;
 
             if (cData.typeOfRotation == RotationType.UseMouse)
             {
@@ -183,7 +184,7 @@ public class CameraController : MonoBehaviour
         nextRotEuler.y = cData.lockRotation.y ? baseRot.eulerAngles.y : nextRotEuler.y;
         nextRotEuler.x = cData.lockRotation.z ? baseRot.eulerAngles.z : nextRotEuler.z;
 
-        nextRot = Quaternion.Euler(nextRotEuler);
+        //nextRot = Quaternion.Euler(nextRotEuler);
         transform.rotation = nextRot;
         //Clamp Rotation
 

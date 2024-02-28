@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1127,7 +1127,7 @@ MonoBehaviour:
   sensitivity: 80
   useCPoints: 1
   CamDatas:
-  - CamDataSC: {fileID: 11400000, guid: 6b6d07ca6df01ba42aefa1661ab3bfe8, type: 2}
+  - CamDataSC: {fileID: 11400000, guid: f1b63f4d1bf89284e8ae93091774c43f, type: 2}
     CamData:
       FOV: 180
       cullingMask:
@@ -1167,7 +1167,7 @@ MonoBehaviour:
       CamDistance: 0
       positionOffset: {x: 0, y: 0, z: 0}
       smoothTimePosition: 0
-  - CamDataSC: {fileID: 11400000, guid: f9115f575d96cd44ba628f8ed4fda76c, type: 2}
+  - CamDataSC: {fileID: 11400000, guid: b48cd32dfcd9c6945b7ff58af8709b02, type: 2}
     CamData:
       FOV: 80
       cullingMask:

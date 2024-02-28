@@ -4,15 +4,12 @@ using Unity.VisualScripting;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.ComponentModel;
+using static UnityEngine.GraphicsBuffer;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-[CreateAssetMenu(fileName = "Camera Data", menuName = "Create Camera Data", order = 1)]
-public class CameraDataScriptableObject : ScriptableObject
-{
-    public CameraData cData;
-}
+
 public enum RotationType { Static = 0, UseTransformRotation = 1, LookTarget = 2, UseMouse = 3 }
 public enum PositionType { Static = 0, FollowTransform = 1, RotateAroundTarget = 2 }
 public enum TargetType { camTarget = 0, Custom = 1}
@@ -20,6 +17,7 @@ public enum TargetType { camTarget = 0, Custom = 1}
 [Serializable]
 public class CameraData
 {
+    [HideInInspector]
     [Range(10f, 180f)]
     public float FOV = 90;
 
@@ -121,7 +119,7 @@ public class CamControlData
 
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(CameraData))]
-public class Editor_CamData : PropertyDrawer
+public class EditorCamData : PropertyDrawer
 {
     SerializedProperty SP_FOV;
     SerializedProperty SP_cullingMask;
@@ -147,11 +145,10 @@ public class Editor_CamData : PropertyDrawer
     SerializedProperty SP_CamDistance;
     SerializedProperty SP_positionOffset;
     SerializedProperty SP_smoothTimePosition;
-
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        Rect UIPosition = new Rect(position.x,position.y,position.width,position.height);
-
+        //Get Property
+        //EditorGUI.BeginProperty(position, GUIContent.none, property);
         SP_FOV = property.FindPropertyRelative("FOV");
         SP_cullingMask = property.FindPropertyRelative("cullingMask");
         SP_Sens = property.FindPropertyRelative("sensitivityMultiplier");
@@ -176,7 +173,6 @@ public class Editor_CamData : PropertyDrawer
         SP_CamDistance = property.FindPropertyRelative("CamDistance");
         SP_positionOffset = property.FindPropertyRelative("positionOffset");
         SP_smoothTimePosition = property.FindPropertyRelative("smoothTimePosition");
-
         //UI Editor
         EditorGUILayout.PropertyField(SP_FOV);
         EditorGUILayout.PropertyField(SP_cullingMask);
@@ -245,6 +241,13 @@ public class Editor_CamData : PropertyDrawer
 
         EditorGUILayout.PropertyField(SP_positionOffset);
         EditorGUILayout.PropertyField(SP_smoothTimePosition);
+
+
+
+        //property.objectReferenceValue = EditorGUI.ObjectField(position, label, property.objectReferenceValue, typeof(CameraData)); 
+        //EditorGUI.EndProperty();
+
+
     }
 
 }
