@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa5893f946c03e4f8aafdfd7385c1a8, type: 3}
+  m_Name: 2D-2
+  m_EditorClassIdentifier: 
+  cData:
+    FOV: 10
+    isOrthographic: 1
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 63
+    typeOfRotation: 0
+    staticRotation: {x: 0, y: -90, z: 0}
+    transformToCopyRotation: {fileID: 0}
+    targetToLookAt: 0
+    lookTarget: {fileID: 0}
+    offsetTarget: {x: 0, y: 0, z: 0}
+    sensitivityMultiplier: 1
+    invertedLook: 0
+    clampXRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    clampYRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    clampZRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    lockRotation:
+      x: 0
+      y: 0
+      z: 0
+    smoothTimeRotation: 0
+    targetUseCamRotation: 0
+    typeOfPosition: 1
+    staticPosition: {x: 0, y: 0, z: 0}
+    targetToBeAt: 0
+    transformToCopyPosition: {fileID: 0}
+    updateFwdWhenPressed: 1
+    CamDistance: 0
+    positionOffset: {x: 10, y: 0, z: 0}
+    smoothTimePosition: 0.5
+    clampXPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    clampYPosition:
+      clamp: 1
+      min: 48.41
+      max: 66.76
+    clampZPosition:
+      clamp: 1
+      min: 52.45
+      max: 52.45
+    lockPosition:
+      x: 1
+      y: 0
+      z: 0

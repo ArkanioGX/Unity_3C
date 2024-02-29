@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
   cData:
     FOV: 90
+    isOrthographic: 0
     cullingMask:
       serializedVersion: 2
       m_Bits: 55
@@ -26,9 +27,9 @@ MonoBehaviour:
     sensitivityMultiplier: 1
     invertedLook: 0
     clampXRotation:
-      clamp: 0
-      min: 0
-      max: 0
+      clamp: 1
+      min: -60
+      max: 60
     clampYRotation:
       clamp: 0
       min: 0
@@ -40,9 +41,9 @@ MonoBehaviour:
     lockRotation:
       x: 0
       y: 0
-      z: 0
+      z: 1
     smoothTimeRotation: 0
-    targetUseCamRotation: 0
+    targetUseCamRotation: 1
     typeOfPosition: 1
     staticPosition: {x: 0, y: 0, z: 0}
     targetToBeAt: 0

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cData:
     FOV: 90
+    isOrthographic: 0
     cullingMask:
       serializedVersion: 2
       m_Bits: 63
@@ -26,9 +27,9 @@ MonoBehaviour:
     sensitivityMultiplier: 1
     invertedLook: 1
     clampXRotation:
-      clamp: 0
+      clamp: 1
       min: 0
-      max: 0
+      max: 70
     clampYRotation:
       clamp: 0
       min: 0
@@ -40,7 +41,7 @@ MonoBehaviour:
     lockRotation:
       x: 0
       y: 0
-      z: 0
+      z: 1
     smoothTimeRotation: 0
     targetUseCamRotation: 0
     typeOfPosition: 2
@@ -50,4 +51,20 @@ MonoBehaviour:
     updateFwdWhenPressed: 1
     CamDistance: 8
     positionOffset: {x: 0, y: 0, z: 0}
-    smoothTimePosition: 0
+    smoothTimePosition: 0.1
+    clampXPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    clampYPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    clampZPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    lockPosition:
+      x: 0
+      y: 0
+      z: 0

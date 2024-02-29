@@ -18,10 +18,10 @@ public enum TargetType { camTarget = 0, Custom = 1}
 public class CameraData
 {
     [HideInInspector]
-    [Range(10f, 180f)]
+    [Range(1f, 180f)]
     public float FOV = 90;
 
-    
+    public bool isOrthographic = false;
 
     //All
     public LayerMask cullingMask;
@@ -83,7 +83,11 @@ public class CameraData
     public Vector3 positionOffset;
     public float smoothTimePosition = 0;
 
+    public minMax clampXPosition;
+    public minMax clampYPosition;
+    public minMax clampZPosition;
 
+    public lockType lockPosition;
     //// Fin Position
 
 
@@ -122,6 +126,7 @@ public class CamControlData
 public class EditorCamData : PropertyDrawer
 {
     SerializedProperty SP_FOV;
+    SerializedProperty SP_Orthographic;
     SerializedProperty SP_cullingMask;
     SerializedProperty SP_Sens;
     SerializedProperty SP_typeOfRotation;
@@ -145,11 +150,16 @@ public class EditorCamData : PropertyDrawer
     SerializedProperty SP_CamDistance;
     SerializedProperty SP_positionOffset;
     SerializedProperty SP_smoothTimePosition;
+    SerializedProperty SP_clampXPosition;
+    SerializedProperty SP_clampYPosition;
+    SerializedProperty SP_clampZPosition;
+    SerializedProperty SP_lockPosition;
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         //Get Property
         //EditorGUI.BeginProperty(position, GUIContent.none, property);
         SP_FOV = property.FindPropertyRelative("FOV");
+        SP_Orthographic = property.FindPropertyRelative("isOrthographic");
         SP_cullingMask = property.FindPropertyRelative("cullingMask");
         SP_Sens = property.FindPropertyRelative("sensitivityMultiplier");
         SP_typeOfRotation = property.FindPropertyRelative("typeOfRotation");
@@ -173,13 +183,22 @@ public class EditorCamData : PropertyDrawer
         SP_CamDistance = property.FindPropertyRelative("CamDistance");
         SP_positionOffset = property.FindPropertyRelative("positionOffset");
         SP_smoothTimePosition = property.FindPropertyRelative("smoothTimePosition");
+        SP_clampXPosition = property.FindPropertyRelative("clampXPosition");
+        SP_clampYPosition = property.FindPropertyRelative("clampYPosition");
+        SP_clampZPosition = property.FindPropertyRelative("clampZPosition");
+        SP_lockPosition = property.FindPropertyRelative("lockPosition");
         //UI Editor
         EditorGUILayout.PropertyField(SP_FOV);
         EditorGUILayout.PropertyField(SP_cullingMask);
+        EditorGUILayout.PropertyField(SP_Orthographic);
 
         EditorGUILayout.Space(10);
 
+        EditorGUILayout.PrefixLabel("-=-=- Rotation -=-=-");
+
         EditorGUILayout.PropertyField(SP_typeOfRotation);
+
+        EditorGUILayout.Space(5);
 
         switch (SP_typeOfRotation.enumValueIndex)
         {
@@ -215,7 +234,11 @@ public class EditorCamData : PropertyDrawer
 
         EditorGUILayout.Space(10);
 
+        EditorGUILayout.PrefixLabel("-=-=- Position -=-=-");
+
         EditorGUILayout.PropertyField(SP_typeOfPosition);
+
+        EditorGUILayout.Space(5);
 
         switch (SP_typeOfPosition.enumValueIndex)
         {
@@ -242,7 +265,11 @@ public class EditorCamData : PropertyDrawer
         EditorGUILayout.PropertyField(SP_positionOffset);
         EditorGUILayout.PropertyField(SP_smoothTimePosition);
 
+        EditorGUILayout.PropertyField(SP_clampXPosition);
+        EditorGUILayout.PropertyField(SP_clampYPosition);
+        EditorGUILayout.PropertyField(SP_clampZPosition);
 
+        EditorGUILayout.PropertyField(SP_lockPosition);
 
         //property.objectReferenceValue = EditorGUI.ObjectField(position, label, property.objectReferenceValue, typeof(CameraData)); 
         //EditorGUI.EndProperty();

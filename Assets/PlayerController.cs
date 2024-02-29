@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxSpeed;
     [SerializeField] float accel;
 
+    [SerializeField] float jumpPower;
+
+    [SerializeField] bool lockTo2D = false;
+
     [SerializeField] float groundDrag = 5f;
     [SerializeField] float airDrag = 0.5f;
 
@@ -51,6 +55,21 @@ public class PlayerController : MonoBehaviour
         camRight = Camera.main.transform.right;
     }
 
+    public void Jump()
+    {
+        Debug.Log("Jump");
+        if (canJump())
+        {
+            rb.AddForce(Vector3.up * jumpPower, ForceMode.Acceleration);
+            rb.drag = 0;
+        }
+    }
+
+    private bool canJump()
+    {
+        return (Physics.Raycast(gCheck.position, -Vector3.up, 0.5f));
+    }
+
     private void Update()
     {
         InputAction IAMove = pInput.currentActionMap.FindAction("Move", false);
@@ -61,7 +80,12 @@ public class PlayerController : MonoBehaviour
     {
         if (canUpdateFwd && !updateFwd && moveKeyInput == Vector2.zero){ updateFwd = true; canUpdateFwd = false; }
         if (updateFwd) { changeForward();}
-        Vector3 fwdInput = camForward * moveKeyInput.y;
+
+        Vector3 fwdInput = Vector3.zero;
+        if (!lockTo2D)
+        { 
+            fwdInput = camForward * moveKeyInput.y;
+        }
         Vector3 rsInput = camRight * moveKeyInput.x;
         Vector3 dir = fwdInput + rsInput;
 

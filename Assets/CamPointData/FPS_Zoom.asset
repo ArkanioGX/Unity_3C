@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa5893f946c03e4f8aafdfd7385c1a8, type: 3}
+  m_Name: FPS_Zoom
+  m_EditorClassIdentifier: Assembly-CSharp::CameraDataScriptableObject
+  cData:
+    FOV: 70
+    isOrthographic: 0
+    cullingMask:
+      serializedVersion: 2
+      m_Bits: 55
+    typeOfRotation: 3
+    staticRotation: {x: 0, y: 0, z: 0}
+    transformToCopyRotation: {fileID: 0}
+    targetToLookAt: 0
+    lookTarget: {fileID: 0}
+    offsetTarget: {x: 0, y: 0, z: 0}
+    sensitivityMultiplier: 1
+    invertedLook: 0
+    clampXRotation:
+      clamp: 1
+      min: -60
+      max: 60
+    clampYRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    clampZRotation:
+      clamp: 0
+      min: 0
+      max: 0
+    lockRotation:
+      x: 0
+      y: 0
+      z: 1
+    smoothTimeRotation: 0
+    targetUseCamRotation: 1
+    typeOfPosition: 1
+    staticPosition: {x: 0, y: 0, z: 0}
+    targetToBeAt: 0
+    transformToCopyPosition: {fileID: 0}
+    updateFwdWhenPressed: 1
+    CamDistance: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    smoothTimePosition: 0
+    clampXPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    clampYPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    clampZPosition:
+      clamp: 0
+      min: 0
+      max: 0
+    lockPosition:
+      x: 0
+      y: 0
+      z: 0
